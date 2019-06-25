@@ -1,0 +1,38 @@
+# =============== #
+# Unity generated #
+# =============== #
+
+*/Temp/
+*/Library/*
+
+# AssetBundele
+
+*/Profile/
+*/Assets/StreamingAssets/AssetBundles
+*/Assets/StreamingAssets/AssetBundles.meta
+*.idea
+
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+
+*/obj/
+*/*.svd
+*/*.userprefs
+*/*.csproj
+*.pidb
+*.suo
+*/*.sln
+*/.vs
+
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
