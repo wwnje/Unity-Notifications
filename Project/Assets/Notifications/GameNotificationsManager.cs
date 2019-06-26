@@ -21,7 +21,7 @@ namespace PuzzlesKingdom.Notifications
         public string smallIcon = null;
         public string largeIcon = null;
 
-        public bool RepeatDay = false;
+        public bool Repeat = false;
     }
 
     public class GameNotificationsManager : IInitializable, IGameNotificationsManager
@@ -98,6 +98,8 @@ namespace PuzzlesKingdom.Notifications
             no.DeliveryTime = notification.DeliveryTime;
             no.SmallIcon = notification.smallIcon;
             no.LargeIcon = notification.largeIcon;
+            no.Repeat = notification.Repeat;
+            
             if (notification.badgeNumber != null)
             {
                 no.BadgeNumber = notification.badgeNumber ;

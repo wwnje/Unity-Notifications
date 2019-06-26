@@ -68,5 +68,7 @@ namespace PuzzlesKingdom.Notifications
 		/// Notification large icon.
 		/// </summary>
 		string LargeIcon { get; set; }
+		
+		bool Repeat { get; set; }
     }
 }

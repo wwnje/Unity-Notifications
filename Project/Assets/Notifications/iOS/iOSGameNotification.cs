@@ -103,7 +103,7 @@ namespace PuzzlesKingdom.Notifications.iOS
                     Day = date.Day,
                     Hour = date.Hour,
                     Minute = date.Minute,
-                    Second = date.Second
+                    Second = date.Second,
                 };
             }
         }        
@@ -135,7 +135,38 @@ namespace PuzzlesKingdom.Notifications.iOS
         /// Does nothing on iOS.
         /// </summary>
         public string LargeIcon { get => null; set { } }
-        
+
+        public bool Repeat
+        {
+            get
+            {
+                if (!(internalNotification.Trigger is iOSNotificationCalendarTrigger calendarTrigger))
+                {
+                    return false;
+                }
+
+                return calendarTrigger.Repeats;
+            }
+            set
+            {
+                if (!(internalNotification.Trigger is iOSNotificationCalendarTrigger calendarTrigger))
+                {
+                    calendarTrigger = new iOSNotificationCalendarTrigger();
+                }
+                
+                internalNotification.Trigger = new iOSNotificationCalendarTrigger
+                {
+                    Year = calendarTrigger.Year,
+                    Month = calendarTrigger.Month,
+                    Day = calendarTrigger.Day,
+                    Hour = calendarTrigger.Hour,
+                    Minute = calendarTrigger.Minute,
+                    Second = calendarTrigger.Second,
+                    Repeats = value,
+                };
+            }
+        }
+
         /// <summary>
         /// Instantiate a new instance of <see cref="IosGameNotification"/>.
         /// </summary>

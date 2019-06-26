@@ -34,14 +34,7 @@ public class DlgView : MonoBehaviour
                 DeliveryTime = System.DateTime.Now.AddSeconds(60),
             };
 
-            if (ToggleUseID.isOn)
-            {
-                _gameNotificationsManager.UpdateScheduledNotification(ID_60, data);
-            }
-            else
-            {
-                _gameNotificationsManager.CreateNotification(data);
-            }
+            UpdateNotification(ID_60, data);
         });
         
         int index1 = 0;
@@ -54,14 +47,7 @@ public class DlgView : MonoBehaviour
                 DeliveryTime = System.DateTime.Now.AddSeconds(1)
             };
 
-            if (ToggleUseID.isOn)
-            {
-                _gameNotificationsManager.UpdateScheduledNotification(ID_1, data);
-            }
-            else
-            {
-                _gameNotificationsManager.CreateNotification(data);
-            }
+            UpdateNotification(ID_1, data);
         });
         
         int index5 = 0;
@@ -74,14 +60,20 @@ public class DlgView : MonoBehaviour
                 DeliveryTime = System.DateTime.Now.AddSeconds(5)
             };
 
-            if (ToggleUseID.isOn)
-            {
-                _gameNotificationsManager.UpdateScheduledNotification(ID_5, data);
-            }
-            else
-            {
-                _gameNotificationsManager.CreateNotification(data);
-            }
+            UpdateNotification(ID_5, data);
         });
+    }
+
+    private void UpdateNotification(int id, OptionalNotification data)
+    {
+        data.Repeat = ToggleRepeat.isOn;
+        if (ToggleUseID.isOn)
+        {
+            _gameNotificationsManager.UpdateScheduledNotification(id, data);
+        }
+        else
+        {
+            _gameNotificationsManager.CreateNotification(data);
+        }
     }
 }
