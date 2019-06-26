@@ -41,6 +41,7 @@ namespace PuzzlesKingdom.Notifications.Android
                 
         public void CancelNotification(int notificationId)
         {
+            Debug.LogFormat("AndroidPlatformNotification CancelNotification:{0}", notificationId);
             AndroidNotificationCenter.CancelScheduledNotification(notificationId);
         }
 
@@ -55,12 +56,17 @@ namespace PuzzlesKingdom.Notifications.Android
             {
                 var identifier = gameNotification.Id.Value;
                 var status = AndroidNotificationCenter.CheckScheduledNotificationStatus(identifier);
+                Debug.LogFormat("AndroidGameNotification, status:{0}", status.ToString());
                 switch (status)
                 {
                     case NotificationStatus.Scheduled:
+                        CancelNotification(identifier);
+                        
+                        // TODO checkIfPendingNotificationIsRegistered is error
                         // Replace the currently scheduled notification with a new notification.
-                        AndroidNotificationCenter.UpdateScheduledNotification(identifier, gameNotification.InternalNotification, gameNotification.DeliveredChannel);
-                        return;
+//                        AndroidNotificationCenter.UpdateScheduledNotification(identifier, gameNotification.InternalNotification, gameNotification.DeliveredChannel);
+//                        return;
+                        break;
                     case NotificationStatus.Delivered:
                         //Remove the notification from the status bar
                         CancelNotification(identifier);
@@ -96,7 +102,7 @@ namespace PuzzlesKingdom.Notifications.Android
                 msg += "\n .Title: " + data.Notification.Title;
                 msg += "\n .Body: " + data.Notification.Text;
                 msg += "\n .Channel: " + data.Channel;
-                Debug.LogError(msg);
+                Debug.Log(msg);
             };
     }
 }
