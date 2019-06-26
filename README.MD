@@ -1,5 +1,10 @@
 # Unity Mobile Notifications
 
+> TodoList
+
+- [ ] Repeat delta
+- [ ] Repeat day
+
 > Demo
 
 * Android
