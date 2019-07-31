@@ -46,7 +46,9 @@ namespace PuzzlesKingdom.Notifications.Android
 
         /// <inheritdoc />
         public string LargeIcon { get => InternalNotification.LargeIcon; set => internalNotification.LargeIcon = value; }
-                
+
+        public bool Repeat { get; set; }
+
         /// <summary>
         /// Gets or sets the channel for this notification.
         /// </summary>

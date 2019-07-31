@@ -10,13 +10,20 @@ public class DlgView : MonoBehaviour
 {
     [Inject] private IGameNotificationsManager _gameNotificationsManager;
     
-    public TMP_Text TextState;
+    public TMP_InputField TextTitle;
+    public TMP_InputField TextBody;
+    public TMP_InputField TextTime;
+    public TMP_InputField ID;
+    public Button ButtonSend;
+    
     public Button ButtonAddMinute;
     public Button ButtonAdd1S;
     public Button ButtonAdd5S;
 
     public Toggle ToggleUseID;
     public Toggle ToggleRepeat;
+    public Toggle ToggleGroup;
+    public Toggle ToggleBage;
 
     private const int ID_60 = 60;
     private const int ID_1= 1;
@@ -62,11 +69,34 @@ public class DlgView : MonoBehaviour
 
             UpdateNotification(ID_5, data);
         });
+        
+        ButtonSend.OnClickAsObservable().Subscribe(_ =>
+        {
+            var data = new OptionalNotification
+            {
+                Title = TextTitle.text,
+                Body = TextBody.text,
+                DeliveryTime = System.DateTime.Now.AddSeconds(int.Parse(TextTime.text))
+            };
+
+            UpdateNotification(int.Parse(ID.text), data);
+        });
     }
 
     private void UpdateNotification(int id, OptionalNotification data)
     {
         data.Repeat = ToggleRepeat.isOn;
+
+        if (ToggleGroup.isOn)
+        {
+            data.group = data.Body;
+        }
+
+        if (ToggleBage.isOn)
+        {
+            data.badgeNumber = id;
+        }
+        
         if (ToggleUseID.isOn)
         {
             _gameNotificationsManager.UpdateScheduledNotification(id, data);

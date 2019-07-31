@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 #if UNITY_ANDROID
 using PuzzlesKingdom.Notifications.Android;
 using Unity.Notifications.Android;
@@ -20,6 +21,7 @@ namespace PuzzlesKingdom.Notifications
         public string channelId = null;
         public string smallIcon = null;
         public string largeIcon = null;
+        public string group = null;
 
         public bool Repeat = false;
     }
@@ -99,7 +101,12 @@ namespace PuzzlesKingdom.Notifications
             no.SmallIcon = notification.smallIcon;
             no.LargeIcon = notification.largeIcon;
             no.Repeat = notification.Repeat;
-            
+
+            if (notification.group != null)
+            {
+                no.Group = notification.group ;
+            }
+
             if (notification.badgeNumber != null)
             {
                 no.BadgeNumber = notification.badgeNumber ;
