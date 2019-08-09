@@ -17,6 +17,7 @@ namespace PuzzlesKingdom.Notifications
         public string Body;
         public DateTime DeliveryTime;
 
+        public bool ShowInForeground;
         public int? badgeNumber = null;
         public string channelId = null;
         public string smallIcon = null;
@@ -101,6 +102,7 @@ namespace PuzzlesKingdom.Notifications
             no.SmallIcon = notification.smallIcon;
             no.LargeIcon = notification.largeIcon;
             no.Repeat = notification.Repeat;
+            no.ShowInForeground = notification.ShowInForeground;
 
             if (notification.group != null)
             {

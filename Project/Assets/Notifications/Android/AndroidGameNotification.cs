@@ -8,6 +8,8 @@ namespace PuzzlesKingdom.Notifications.Android
     {
         private AndroidNotification internalNotification;
         public AndroidNotification InternalNotification => internalNotification;
+        private AndroidNotificationChannel internalChannel;
+        public AndroidNotificationChannel InternalChannel => internalChannel;
         
         public int? Id { get; set; }
         public string Title { get => InternalNotification.Title; set => internalNotification.Title = value; }
@@ -24,7 +26,13 @@ namespace PuzzlesKingdom.Notifications.Android
         /// <see cref="AndroidNotificationsPlatform"/> if <see cref="AndroidNotificationsPlatform.DefaultChannelId"/> is set
         /// </remarks>
         /// <value>The value of <see cref="DeliveredChannel"/>.</value>
-        public string Group { get => DeliveredChannel; set => DeliveredChannel = value; }
+        public string Group { get => DeliveredChannel;
+            set
+            {
+                DeliveredChannel = value;
+                internalChannel.Id = DeliveredChannel;
+            }
+        }
         
         public DateTime? DeliveryTime
         {
@@ -49,6 +57,12 @@ namespace PuzzlesKingdom.Notifications.Android
 
         public bool Repeat { get; set; }
 
+        public bool ShowInForeground
+        {
+            get => internalChannel.Importance == Importance.High;
+            set => internalChannel.Importance = value ? Importance.High : Importance.Default;
+        }
+
         /// <summary>
         /// Gets or sets the channel for this notification.
         /// </summary>
@@ -60,6 +74,21 @@ namespace PuzzlesKingdom.Notifications.Android
         public AndroidGameNotification()
         {
             internalNotification = new AndroidNotification();
+        }
+
+        public void CreateChannel()
+        {
+            AndroidNotificationCenter.DeleteNotificationChannel(DeliveredChannel);
+
+            internalChannel = new AndroidNotificationChannel()
+            {
+                Id = DeliveredChannel,
+                Name = "Default Channel",
+                Importance = Importance.Default,
+                Description = "Generic notifications",
+            };
+            
+            AndroidNotificationCenter.RegisterNotificationChannel(internalChannel);
         }
     }
 }

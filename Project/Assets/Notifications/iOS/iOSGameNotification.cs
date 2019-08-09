@@ -167,6 +167,12 @@ namespace PuzzlesKingdom.Notifications.iOS
             }
         }
 
+        public bool ShowInForeground
+        {
+            get => internalNotification.ShowInForeground;
+            set => internalNotification.ShowInForeground = value;
+        }
+
         /// <summary>
         /// Instantiate a new instance of <see cref="IosGameNotification"/>.
         /// </summary>

@@ -18,8 +18,10 @@ namespace PuzzlesKingdom.Notifications.Android
         {
             var notification = new AndroidGameNotification
             {
-                DeliveredChannel = DefaultChannelId
+                DeliveredChannel = DefaultChannelId,
             };
+
+            notification.CreateChannel();
             return notification;
         }
 
@@ -61,7 +63,6 @@ namespace PuzzlesKingdom.Notifications.Android
                 {
                     case NotificationStatus.Scheduled:
                         CancelNotification(identifier);
-                        
                         // TODO checkIfPendingNotificationIsRegistered is error
                         // Replace the currently scheduled notification with a new notification.
 //                        AndroidNotificationCenter.UpdateScheduledNotification(identifier, gameNotification.InternalNotification, gameNotification.DeliveredChannel);

@@ -70,5 +70,6 @@ namespace PuzzlesKingdom.Notifications
 		string LargeIcon { get; set; }
 		
 		bool Repeat { get; set; }
+		bool ShowInForeground { get; set; }
     }
 }

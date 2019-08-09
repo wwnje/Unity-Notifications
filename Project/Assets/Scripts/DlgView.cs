@@ -1,10 +1,15 @@
 using System;
+using System.Collections.Generic;
 using PuzzlesKingdom.Notifications;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 using UniRx;
+
+#if UNITY_ANDROID
+using Unity.Notifications.Android;
+#endif
 
 public class DlgView : MonoBehaviour
 {
@@ -24,10 +29,13 @@ public class DlgView : MonoBehaviour
     public Toggle ToggleRepeat;
     public Toggle ToggleGroup;
     public Toggle ToggleBage;
+    public Toggle ToggleShowInForeground;
 
     private const int ID_60 = 60;
     private const int ID_1= 1;
     private const int ID_5 = 5;
+    
+    public List<Button> Buttons = new List<Button>();
     
     private void Awake()
     {
@@ -81,6 +89,36 @@ public class DlgView : MonoBehaviour
 
             UpdateNotification(int.Parse(ID.text), data);
         });
+        
+#if UNITY_ANDROID
+        List<Importance> testImportances = new List<Importance>{Importance.High, Importance.Default, Importance.Low, Importance.None};
+        
+        for (int i = 0; i < Buttons.Count; i++)
+        {
+            int index = i;
+            Buttons[i].onClick.AddListener(() =>
+            {
+                var dataID = "channel_id" + index;
+            
+                var notification = new AndroidNotification();
+                notification.Title = "SomeTitle" + index;
+                notification.Text = "SomeText" + index;
+                notification.FireTime = System.DateTime.Now.AddSeconds(2);
+                AndroidNotificationCenter.SendNotification(notification, dataID);
+            
+                AndroidNotificationCenter.DeleteNotificationChannel(dataID);
+                var c = new AndroidNotificationChannel()
+                {
+                    Id = dataID,
+                    Name = "Default Channel" + index,
+                    Importance = testImportances[index],
+                    Description = "Generic notifications" + index,
+                };
+                AndroidNotificationCenter.RegisterNotificationChannel(c);
+                Debug.Log(c.Importance.ToString());
+            });
+        }
+#endif
     }
 
     private void UpdateNotification(int id, OptionalNotification data)
@@ -96,6 +134,9 @@ public class DlgView : MonoBehaviour
         {
             data.badgeNumber = id;
         }
+        
+        data.ShowInForeground = ToggleShowInForeground.isOn;
+
         
         if (ToggleUseID.isOn)
         {
