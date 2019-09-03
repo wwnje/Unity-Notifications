@@ -124,7 +124,9 @@ public class DlgView : MonoBehaviour
     private void UpdateNotification(int id, OptionalNotification data)
     {
         data.Repeat = ToggleRepeat.isOn;
-
+        data.smallIcon = "icon_48";
+        data.largeIcon = "icon_192";
+        
         if (ToggleGroup.isOn)
         {
             data.group = data.Body;
