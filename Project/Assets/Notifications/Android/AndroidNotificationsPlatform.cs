@@ -12,6 +12,7 @@ namespace PuzzlesKingdom.Notifications.Android
         public AndroidNotificationsPlatform()
         {
             AndroidNotificationCenter.OnNotificationReceived += OnLocalNotificationReceived;
+            UnityAndroidHelper.Instance.Init();
         }
         
         public IGameNotification CreateNotification()
@@ -21,7 +22,6 @@ namespace PuzzlesKingdom.Notifications.Android
                 DeliveredChannel = DefaultChannelId,
             };
 
-            notification.CreateChannel();
             return notification;
         }
 
@@ -95,7 +95,7 @@ namespace PuzzlesKingdom.Notifications.Android
             AndroidNotificationCenter.OnNotificationReceived -= OnLocalNotificationReceived;
         }
 
-        readonly AndroidNotificationCenter.NotificationReceivedCallback OnLocalNotificationReceived = 
+        private readonly AndroidNotificationCenter.NotificationReceivedCallback OnLocalNotificationReceived = 
             delegate(AndroidNotificationIntentData data)
             {
                 var msg = "Notification received : " + data.Id + "\n";
@@ -104,6 +104,13 @@ namespace PuzzlesKingdom.Notifications.Android
                 msg += "\n .Body: " + data.Notification.Text;
                 msg += "\n .Channel: " + data.Channel;
                 Debug.Log(msg);
+                
+                // 游戏运行中不显示推送
+                if (UnityAndroidHelper.Instance.IsRunningInForeground)
+                {
+                    Debug.Log("游戏运行中不显示推送");
+                    AndroidNotificationCenter.CancelDisplayedNotification(data.Id);            
+                }
             };
     }
 }

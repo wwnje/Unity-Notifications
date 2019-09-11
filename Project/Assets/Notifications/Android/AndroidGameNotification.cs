@@ -75,21 +75,6 @@ namespace PuzzlesKingdom.Notifications.Android
         {
             internalNotification = new AndroidNotification();
         }
-
-        public void CreateChannel()
-        {
-            AndroidNotificationCenter.DeleteNotificationChannel(DeliveredChannel);
-
-            internalChannel = new AndroidNotificationChannel()
-            {
-                Id = DeliveredChannel,
-                Name = "Default Channel",
-                Importance = Importance.Default,
-                Description = "Generic notifications",
-            };
-            
-            AndroidNotificationCenter.RegisterNotificationChannel(internalChannel);
-        }
     }
 }
 #endif

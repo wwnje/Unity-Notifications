@@ -4,6 +4,9 @@
 
 - [ ] Repeat delta
 - [ ] Repeat day
+- [ ] switch in Front
+
+> Have Done
 
 > Demo
 
